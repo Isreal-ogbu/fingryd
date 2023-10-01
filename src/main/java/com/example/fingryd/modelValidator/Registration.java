@@ -1,22 +1,15 @@
-package com.example.fingryd.model;
+package com.example.fingryd.modelValidator;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
-@Entity
-@NoArgsConstructor
+@Component
 @AllArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"customer_id", "mobile", "email"}))
-public final class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long customer_id;
-
+@NoArgsConstructor
+public class Registration {
     @NotNull(message = "name cannot be null")
     @NotBlank(message = "name cannot be blank")
     @NotEmpty(message = "name cannot be empty")
@@ -51,4 +44,13 @@ public final class Customer {
     @NotBlank(message = "address cannot be blank")
     @NotEmpty(message = "address cannot be empty")
     private String address;
+    @NotNull(message = "pin cannot be null")
+    @NotBlank(message = "pin cannot be blank")
+    @NotEmpty(message = "pin cannot be empty")
+    @Length(
+            min = 4,
+            max = 4
+    )
+    private int pin;
+
 }
