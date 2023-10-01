@@ -1,26 +1,30 @@
 package com.example.fingryd.model;
 
+
+import com.example.fingryd.model.model_enum.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDate;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"customer_id", "mobile", "email"}))
-public final class Customer {
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"id", "username", "email"}))
+public class Employee {
+//    Still a work in progress. we will be needing them during auth configuration for admin/employee management
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long customer_id;
+    private long id;
 
     @NotNull(message = "name cannot be null")
     @NotBlank(message = "name cannot be blank")
     @NotEmpty(message = "name cannot be empty")
     private String name;
+
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String employeeId;
 
     @NotNull(message = "phone number cannot be null")
     @NotBlank(message = "phone number cannot be blank")
@@ -49,6 +53,9 @@ public final class Customer {
 
     @NotNull(message = "address cannot be null")
     @NotBlank(message = "address cannot be blank")
-    @NotEmpty(message = "address cannot be empty")
+    @NotEmpty(message = "adress cannot be empty")
     private String address;
+
+    @Enumerated(value = EnumType.STRING)
+    private Roles role;
 }
