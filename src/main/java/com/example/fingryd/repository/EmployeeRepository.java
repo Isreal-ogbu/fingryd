@@ -1,9 +1,9 @@
 package com.example.fingryd.repository;
 
-import com.example.fingryd.model.Customer;
+import com.example.fingryd.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-@Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 }
