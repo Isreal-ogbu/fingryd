@@ -1,4 +1,4 @@
 package com.example.fingryd.controller;
 
-public class UserController {
+public class CustomerController {
 }
