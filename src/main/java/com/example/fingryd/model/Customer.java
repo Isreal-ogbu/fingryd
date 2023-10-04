@@ -3,19 +3,23 @@ package com.example.fingryd.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"customer_id", "mobile", "email"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"customerId", "mobile", "email"}))
 public final class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long customer_id;
+    private long customerId;
 
     @NotNull(message = "name cannot be null")
     @NotBlank(message = "name cannot be blank")
@@ -25,7 +29,7 @@ public final class Customer {
     @NotNull(message = "phone number cannot be null")
     @NotBlank(message = "phone number cannot be blank")
     @NotEmpty(message = "phone number cannot be empty")
-    @Pattern(regexp = "^\\+234\\d{11}$")
+    @Pattern(regexp = "^\\+234\\d{10}$")
     private String mobile;
 
     @NotNull(message = "email cannot be null")
@@ -43,12 +47,19 @@ public final class Customer {
     @NotBlank(message = "password cannot be blank")
     @NotEmpty(message = "password cannot be empty")
     @Length(min = 8, max = 50, message = "min length of password is 8")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[@$#^+=!%&*()_])[A-Za-z0-9@$#^+=!%&*()_]{8,}$\n",
-            message = "must contain a lower and uppercase character, a number and a character")
     private String password;
 
     @NotNull(message = "address cannot be null")
     @NotBlank(message = "address cannot be blank")
     @NotEmpty(message = "address cannot be empty")
     private String address;
+
+    public Customer(String name, String mobile, String email, String userName, String password, String address) {
+        this.name=name;
+        this.mobile=mobile;
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.address = address;
+    }
 }

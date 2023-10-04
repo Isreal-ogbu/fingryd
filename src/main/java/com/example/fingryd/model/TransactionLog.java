@@ -3,15 +3,17 @@ package com.example.fingryd.model;
 import com.example.fingryd.model.model_enum.TransactionStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Customer Transaction")
+@Table(name = "Customer_Transaction")
 public class TransactionLog {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
