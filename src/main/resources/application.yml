@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: "jdbc:mysql://localhost:3306/fingryd"
+    url: "jdbc:mysql://localhost:3306/fingry"
     username: "root"
     password: "@Blessing22#"
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect

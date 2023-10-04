@@ -1,7 +1,11 @@
 package com.example.fingryd.modelValidator;
 
+import com.example.fingryd.model.model_enum.AccountType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Component;
@@ -9,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class Registration {
     @NotNull(message = "name cannot be null")
     @NotBlank(message = "name cannot be blank")
@@ -18,7 +23,7 @@ public class Registration {
     @NotNull(message = "phone number cannot be null")
     @NotBlank(message = "phone number cannot be blank")
     @NotEmpty(message = "phone number cannot be empty")
-    @Pattern(regexp = "^\\+234\\d{11}$")
+    @Pattern(regexp = "^\\+234\\d{10}$",  message = "Enter a valid phone number")
     private String mobile;
 
     @NotNull(message = "email cannot be null")
@@ -36,21 +41,20 @@ public class Registration {
     @NotBlank(message = "password cannot be blank")
     @NotEmpty(message = "password cannot be empty")
     @Length(min = 8, max = 50, message = "min length of password is 8")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[@$#^+=!%&*()_])[A-Za-z0-9@$#^+=!%&*()_]{8,}$\n",
-            message = "must contain a lower and uppercase character, a number and a character")
     private String password;
 
     @NotNull(message = "address cannot be null")
     @NotBlank(message = "address cannot be blank")
     @NotEmpty(message = "address cannot be empty")
     private String address;
+
     @NotNull(message = "pin cannot be null")
     @NotBlank(message = "pin cannot be blank")
     @NotEmpty(message = "pin cannot be empty")
-    @Length(
-            min = 4,
-            max = 4
-    )
-    private int pin;
+    @Length(min = 4, max = 4)
+    private String pin;
+
+    @Enumerated(value = EnumType.STRING)
+    private AccountType account_type;
 
 }
