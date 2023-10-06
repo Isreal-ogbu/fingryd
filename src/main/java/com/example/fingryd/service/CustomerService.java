@@ -33,11 +33,13 @@ public class CustomerService {
         Customer customer1 = customerRepository.save(customer);
         CustomerAccounts customerAccounts = new CustomerAccounts(customer1, e.getMobile().substring(3,13), e.getPin(), e.getAccount_type());
         customerAccountsRepository.save(customerAccounts);
+
         return ResponseEntity.status(HttpStatus.CREATED).body("Welcome to Fingryd bank, Your account" +
                 "Was successfully created. Kindly check your email for account information");
     }
     public ResponseEntity<String> updateAccountInformation(){ return ResponseEntity.ok("");}
     public ResponseEntity<Customer> getAccount(Long id){
+
         Customer customer = customerRepository.findById(id).orElseThrow(()->new CustomerException("Customer with id does nor exist"));
         customer.setPassword("*******");
         return ResponseEntity.status(HttpStatus.OK).body(customer);
@@ -47,4 +49,6 @@ public class CustomerService {
         customerRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Account with "+ id + " has been deleted successfully");
     }
+
+    public ResponseEntity<String> changePin(){ return ResponseEntity.ok("");}
 }
