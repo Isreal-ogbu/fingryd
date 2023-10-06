@@ -10,7 +10,6 @@ import org.hibernate.validator.constraints.Length;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class AccountNumberValidator {
     @NotNull(message = "customer account number cannot be null")
     @NotBlank(message = "customer account number cannot be blank")

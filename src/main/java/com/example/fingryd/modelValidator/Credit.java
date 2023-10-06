@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class Credit {
     @NotNull(message = "customer account number cannot be null")
