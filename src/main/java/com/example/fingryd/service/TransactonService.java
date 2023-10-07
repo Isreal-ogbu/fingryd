@@ -55,7 +55,7 @@ public class TransactonService {
 
         Map<String, String> message = new HashMap<>();
         message.put("message", "Success");
-        message.put("Transaction message", "Successfully deposited "+ credit.getAmount() + " into account with account number" +
+        message.put("Transaction message", "Successfully deposited "+ credit.getAmount() + " into account with account number " +
                 customerAccounts.getAccountNumber().toString().substring(0, 5) + "***");
 
         return ResponseEntity.ok(message);
