@@ -3,6 +3,7 @@ package com.example.fingryd.service;
 import com.example.fingryd.exception.CustomerException;
 import com.example.fingryd.model.Customer;
 import com.example.fingryd.model.CustomerAccounts;
+import com.example.fingryd.modelValidator.ChangePin;
 import com.example.fingryd.modelValidator.Registration;
 import com.example.fingryd.repository.CustomerAccountsRepository;
 import com.example.fingryd.repository.CustomerRepository;
@@ -13,6 +14,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Configuration
@@ -49,6 +53,21 @@ public class CustomerService {
         customerRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Account with "+ id + " has been deleted successfully");
     }
+    @Transactional
+    public ResponseEntity<Map<String, String>> changePin(ChangePin changePin ){
+        Map<String, String> response = new HashMap<>();
+        CustomerAccounts customer = customerAccountsRepository.findByAccountNumberAndPin(Long.parseLong(changePin.getCustomerAccountNumber()),
+                Long.parseLong(changePin.getCustomerPin())).orElseThrow(()-> new CustomerException("Incorrect Account number or pin"));
+        customer.setPin(Long.parseLong(changePin.getCustomerNewPin()));
+        customerAccountsRepository.save(customer);
+        response.put("message", "Password successfully changed");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
-    public ResponseEntity<String> changePin(){ return ResponseEntity.ok("");}
+    @Transactional
+    public ResponseEntity<Map<String, String>> changeCustomerDetails(){
+        Map<String, String> response = new HashMap<>();
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

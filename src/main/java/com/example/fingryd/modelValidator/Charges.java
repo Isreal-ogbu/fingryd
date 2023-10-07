@@ -1,4 +1,4 @@
-package com.example.fingryd.utils;
+package com.example.fingryd.modelValidator;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -17,4 +17,5 @@ public class Charges {
     public static Double getINTER_BANK_CHARGES() {
         return INTER_BANK_CHARGES;
     }
+
 }
