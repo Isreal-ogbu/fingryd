@@ -35,4 +35,5 @@ build/
 *.spring.log
 /var/
 *.yml
+*.application.yml
 
