@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class Withdrawal {
 

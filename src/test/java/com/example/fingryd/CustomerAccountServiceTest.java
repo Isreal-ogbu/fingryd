@@ -30,8 +30,7 @@ public class CustomerAccountServiceTest {
 
     @Test
     public void testGetCustomerAccountByAccountNumber() {
-        AccountNumberValidator accountNumberValidator = new AccountNumberValidator();
-        accountNumberValidator.setCustomerAccountNumber("1234567890");
+        AccountNumberValidator accountNumberValidator = new AccountNumberValidator("1234567890");
         CustomerAccounts expectedAccount = new CustomerAccounts();
         Customer customer = new Customer();
         customer.setCustomerId(12345L);

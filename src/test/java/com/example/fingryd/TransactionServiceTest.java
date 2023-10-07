@@ -91,7 +91,7 @@ public class TransactionServiceTest {
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Insufficient fund in user's account", response.getBody());
+        assertEquals("Insufficient Balance", response.getBody());
         assertEquals(100.0, customerAccounts.getBalance());
         verify(customerAccountsRepository, never()).save(any());
     }
@@ -113,9 +113,9 @@ public class TransactionServiceTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(response.getBody() instanceof Map);
         assertEquals("Success", response.getBody().get("message"));
-        String actualMessage = response.getBody().get("Transaction messsage");
+        String actualMessage = response.getBody().get("Transaction message");
         String expectedMessage = "Successfully deposited 100.0 into account with account number 12345***";
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertEquals(actualMessage, expectedMessage);
 
         verify(customerAccountsRepository, times(1)).save(customerAccounts);
     }
