@@ -34,9 +34,9 @@ public class CustomerServiceTest {
 
     @Test
     public void testCreateCustomerAccount() {
-        Registration registration = new Registration("John Doe", "1234567890", "john@example.com", "johndoe", "password", "123 Main St", "1234", AccountType.SAVINGS);
+        Registration registration = new Registration("John Doe", "+2348160006667", "john@example.com", "johndoe", "password", "123 Main St", "1234", AccountType.SAVINGS);
 
-        Customer customer = new Customer("John Doe", "1234567890", "john@example.com", "johndoe", "password", "123 Main St");
+        Customer customer = new Customer("John Doe", "+2348160006667", "john@example.com", "johndoe", "password", "123 Main St");
         CustomerAccounts customerAccounts = new CustomerAccounts(customer, "4567890", "1234", AccountType.SAVINGS);
 
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
