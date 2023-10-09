@@ -3,9 +3,11 @@ package com.example.fingryd.service;
 import com.example.fingryd.exception.CustomerException;
 import com.example.fingryd.model.Customer;
 import com.example.fingryd.model.CustomerAccounts;
+import com.example.fingryd.modelValidator.ChangePin;
 import com.example.fingryd.modelValidator.Registration;
 import com.example.fingryd.repository.CustomerAccountsRepository;
 import com.example.fingryd.repository.CustomerRepository;
+import com.example.fingryd.utils.CustomerServiceUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Configuration
@@ -27,17 +32,20 @@ public class CustomerService {
     }
 
     @Transactional
-    public ResponseEntity<String> createCustomerAccount(Registration e){
-
-        Customer customer = new Customer(e.getName(), e.getMobile(), e.getEmail(), e.getUserName(), e.getPassword(),e.getAddress());
+    public ResponseEntity<Map<String, String>> createCustomerAccount(Registration e) {
+        Map<String, String> response = new HashMap<>();
+        Customer customer = new Customer(e.getName(), e.getMobile(), e.getEmail(), e.getUserName(), e.getPassword(), e.getAddress());
         Customer customer1 = customerRepository.save(customer);
-        CustomerAccounts customerAccounts = new CustomerAccounts(customer1, e.getMobile().substring(3,13), e.getPin(), e.getAccount_type());
+        double initialBalance = 0;
+        CustomerAccounts customerAccounts = new CustomerAccounts(customer1, e.getMobile().substring(3, 13), e.getPin(), e.getAccount_type(), initialBalance);
         customerAccountsRepository.save(customerAccounts);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Welcome to Fingryd bank, Your account" +
+        response.put("message", "Welcome to Fingryd bank, Your account" +
                 "Was successfully created. Kindly check your email for account information");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-    public ResponseEntity<String> updateAccountInformation(){ return ResponseEntity.ok("");}
+    public ResponseEntity<String> updateAccountInformation(){
+        return ResponseEntity.ok("");
+    }
     public ResponseEntity<Customer> getAccount(Long id){
 
         Customer customer = customerRepository.findById(id).orElseThrow(()->new CustomerException("Customer with id does nor exist"));
@@ -50,5 +58,19 @@ public class CustomerService {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Account with "+ id + " has been deleted successfully");
     }
 
-    public ResponseEntity<String> changePin(){ return ResponseEntity.ok("");}
+    @Transactional
+    public ResponseEntity<Map<String, String>> changePin(ChangePin changePin ) {
+        Map<String, String > response = new HashMap<>();
+        CustomerAccounts customerAccounts = customerAccountsRepository.findByAccountNumber(Long.parseLong(changePin.getCustomerAccountNumber()))
+                .orElseThrow(() -> new CustomerException("Customer accounts not found"));
+        if (!customerAccounts.getPin().equals(Long.parseLong(changePin.getCustomerPin()))) {
+            response.put("message", "Incorrect current PIN. Please try again." );
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        customerAccounts.setPin(Long.valueOf(changePin.getCustomerNewPin()));
+        customerAccountsRepository.save(customerAccounts);
+        response.put("message", "PIN successfully changed.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }
