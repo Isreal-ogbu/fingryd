@@ -2,12 +2,9 @@ package com.example.fingryd.model;
 
 import com.example.fingryd.model.model_enum.AccountType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -16,7 +13,6 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"accountId", "accountNumber"}))
 public final class CustomerAccounts {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,9 +34,17 @@ public final class CustomerAccounts {
     private LocalDate created = LocalDate.now();
 
     public CustomerAccounts(Customer customerId, String substring, String pin, AccountType accountType) {
-        this.customerId= customerId;
+        this.customerId = customerId;
         this.accountNumber = Long.parseLong(substring);
         this.pin = Long.parseLong(pin);
         this.accountType = Objects.requireNonNullElse(accountType, AccountType.SAVINGS);
+    }
+
+    public CustomerAccounts(Customer customer1, String substring, String pin, AccountType accountType, double initialBalance) {
+        this.customerId = customer1;
+        this.accountNumber = Long.parseLong(substring);
+        this.pin = Long.parseLong(pin);
+        this.accountType = Objects.requireNonNullElse(accountType, AccountType.SAVINGS);
+        this.balance = initialBalance;
     }
 }

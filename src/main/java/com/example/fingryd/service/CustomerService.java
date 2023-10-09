@@ -7,6 +7,7 @@ import com.example.fingryd.modelValidator.ChangePin;
 import com.example.fingryd.modelValidator.Registration;
 import com.example.fingryd.repository.CustomerAccountsRepository;
 import com.example.fingryd.repository.CustomerRepository;
+import com.example.fingryd.utils.CustomerServiceUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,17 +32,20 @@ public class CustomerService {
     }
 
     @Transactional
-    public ResponseEntity<String> createCustomerAccount(Registration e){
-
-        Customer customer = new Customer(e.getName(), e.getMobile(), e.getEmail(), e.getUserName(), e.getPassword(),e.getAddress());
+    public ResponseEntity<Map<String, String>> createCustomerAccount(Registration e) {
+        Map<String, String> response = new HashMap<>();
+        Customer customer = new Customer(e.getName(), e.getMobile(), e.getEmail(), e.getUserName(), e.getPassword(), e.getAddress());
         Customer customer1 = customerRepository.save(customer);
-        CustomerAccounts customerAccounts = new CustomerAccounts(customer1, e.getMobile().substring(3,13), e.getPin(), e.getAccount_type());
+        double initialBalance = 0;
+        CustomerAccounts customerAccounts = new CustomerAccounts(customer1, e.getMobile().substring(3, 13), e.getPin(), e.getAccount_type(), initialBalance);
         customerAccountsRepository.save(customerAccounts);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Welcome to Fingryd bank, Your account" +
+        response.put("message", "Welcome to Fingryd bank, Your account" +
                 "Was successfully created. Kindly check your email for account information");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-    public ResponseEntity<String> updateAccountInformation(){ return ResponseEntity.ok("");}
+    public ResponseEntity<String> updateAccountInformation(){
+        return ResponseEntity.ok("");
+    }
     public ResponseEntity<Customer> getAccount(Long id){
 
         Customer customer = customerRepository.findById(id).orElseThrow(()->new CustomerException("Customer with id does nor exist"));
@@ -53,21 +57,28 @@ public class CustomerService {
         customerRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Account with "+ id + " has been deleted successfully");
     }
+
+
     @Transactional
-    public ResponseEntity<Map<String, String>> changePin(ChangePin changePin ){
-        Map<String, String> response = new HashMap<>();
-        CustomerAccounts customer = customerAccountsRepository.findByAccountNumberAndPin(Long.parseLong(changePin.getCustomerAccountNumber()),
-                Long.parseLong(changePin.getCustomerPin())).orElseThrow(()-> new CustomerException("Incorrect Account number or pin"));
-        customer.setPin(Long.parseLong(changePin.getCustomerNewPin()));
-        customerAccountsRepository.save(customer);
-        response.put("message", "Password successfully changed");
+    public ResponseEntity<Map<String, String>> changePin(ChangePin changePin ) {
+        Map<String, String > response = new HashMap<>();
+        CustomerAccounts customerAccounts = customerAccountsRepository.findByAccountNumber(Long.parseLong(changePin.getCustomerAccountNumber()))
+                .orElseThrow(() -> new CustomerException("Customer accounts not found"));
+        if (!customerAccounts.getPin().equals(Long.parseLong(changePin.getCustomerPin()))) {
+            response.put("message", "Incorrect current PIN. Please try again." );
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        customerAccounts.setPin(Long.valueOf(changePin.getCustomerNewPin()));
+        customerAccountsRepository.save(customerAccounts);
+        response.put("message", "PIN successfully changed.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @Transactional
+
     public ResponseEntity<Map<String, String>> changeCustomerDetails(){
         Map<String, String> response = new HashMap<>();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
 }

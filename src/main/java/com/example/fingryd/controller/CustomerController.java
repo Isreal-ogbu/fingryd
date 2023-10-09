@@ -1,11 +1,14 @@
 package com.example.fingryd.controller;
 
 import com.example.fingryd.model.Customer;
+import com.example.fingryd.modelValidator.ChangePin;
 import com.example.fingryd.modelValidator.Registration;
 import com.example.fingryd.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("info/v1/")
@@ -15,7 +18,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
     @PostMapping("create-account/")
-    public ResponseEntity<String> creatCustomerAccount(@RequestBody @Valid Registration registration){
+    public ResponseEntity<Map<String, String>> creatCustomerAccount(@RequestBody @Valid Registration registration){
         return customerService.createCustomerAccount(registration);
     }
     @GetMapping("/{id}")
@@ -26,4 +29,10 @@ public class CustomerController {
     public ResponseEntity<String> deleteCustomerInformation(@PathVariable Long id){
         return customerService.deleteAccount(id);
     }
+
+    @PostMapping("/change-pin")
+    public ResponseEntity<Map<String, String>> changePin( @RequestBody @Valid ChangePin changePin) {
+        return customerService.changePin(changePin);
+    }
+
 }

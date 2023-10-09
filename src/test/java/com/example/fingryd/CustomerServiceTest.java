@@ -15,6 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,7 +36,7 @@ public class CustomerServiceTest {
 
     @Test
     public void testCreateCustomerAccount() {
-        Registration registration = new Registration("John Doe", "1234567890", "john@example.com", "johndoe", "password", "123 Main St", "1234", AccountType.SAVINGS);
+        Registration registration = new Registration("John Doe", "+2345678901234", "john@example.com", "johndoe", "password", "123 Main St", "1234", AccountType.SAVINGS);
 
         Customer customer = new Customer("John Doe", "1234567890", "john@example.com", "johndoe", "password", "123 Main St");
         CustomerAccounts customerAccounts = new CustomerAccounts(customer, "4567890", "1234", AccountType.SAVINGS);
@@ -42,11 +44,11 @@ public class CustomerServiceTest {
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
         when(customerAccountsRepository.save(any(CustomerAccounts.class))).thenReturn(customerAccounts);
 
-        ResponseEntity<String> response = customerService.createCustomerAccount(registration);
+        ResponseEntity<Map<String, String>> response = customerService.createCustomerAccount(registration);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertTrue(response.getBody().contains("Welcome to Fingryd bank"));
+        assertTrue(Objects.requireNonNull(response.getBody()).containsKey("message"));
     }
 
     @Test
