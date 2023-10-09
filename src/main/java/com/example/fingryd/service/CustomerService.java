@@ -58,6 +58,7 @@ public class CustomerService {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Account with "+ id + " has been deleted successfully");
     }
 
+
     @Transactional
     public ResponseEntity<Map<String, String>> changePin(ChangePin changePin ) {
         Map<String, String > response = new HashMap<>();
@@ -70,6 +71,13 @@ public class CustomerService {
         customerAccounts.setPin(Long.valueOf(changePin.getCustomerNewPin()));
         customerAccountsRepository.save(customerAccounts);
         response.put("message", "PIN successfully changed.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+
+    public ResponseEntity<Map<String, String>> changeCustomerDetails(){
+        Map<String, String> response = new HashMap<>();
+
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

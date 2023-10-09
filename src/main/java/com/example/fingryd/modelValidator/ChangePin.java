@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+
 @Data
 @RequiredArgsConstructor
 public class ChangePin {
@@ -26,5 +27,7 @@ public class ChangePin {
     @NotEmpty(message = "pin number cannot be empty")
     @Length(min = 4, max = 4)
     private String customerNewPin;
+
+
 
 }

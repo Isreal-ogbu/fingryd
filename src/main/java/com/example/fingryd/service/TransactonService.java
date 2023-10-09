@@ -1,17 +1,15 @@
 package com.example.fingryd.service;
 
 import com.example.fingryd.exception.CustomerException;
-import com.example.fingryd.model.Customer;
 import com.example.fingryd.model.CustomerAccounts;
 import com.example.fingryd.modelValidator.Credit;
 import com.example.fingryd.modelValidator.Purchase;
 import com.example.fingryd.modelValidator.Transfer;
 import com.example.fingryd.modelValidator.Withdrawal;
 import com.example.fingryd.repository.CustomerAccountsRepository;
-import com.example.fingryd.utils.Charges;
+import com.example.fingryd.modelValidator.Charges;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
