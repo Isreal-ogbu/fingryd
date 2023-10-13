@@ -6,7 +6,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
@@ -24,8 +24,11 @@ logging:
       springframework:
         security: WARN
 
-email: ogbuisreal@gmail.com
+
+email: ogbuisreal22@gmail.com
 host: smtp.gmail.com
 protocol: smtp
-password: "sowwtfafgaxlqund"
+password: sowwtfafgaxlqund
 port: 465
+
+filename: "C:\\Users\\USER\\fingryd\\src\\main\\java\\com\\example\\fingryd\\logging\\customer_log.txt"

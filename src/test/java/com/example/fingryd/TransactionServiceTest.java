@@ -45,10 +45,10 @@ public class TransactionServiceTest {
 
         when(customerAccountsRepository.findByAccountNumber(1234567890L)).thenReturn(Optional.of(customerAccounts));
 
-        // Act
+
         ResponseEntity<String> response = transactonService.withdrawFromAccount(withdrawal);
 
-        // Assert
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Dear customer, a withdrawal of 50.0 was successfully deducted from your account", response.getBody());
         assertEquals(29.950000000000003, customerAccounts.getBalance());
@@ -57,7 +57,7 @@ public class TransactionServiceTest {
 
     @Test
     public void testWithdrawFromAccountIncorrectPin() {
-        // Arrange
+
         Withdrawal withdrawal = new Withdrawal("1234567890", 50.0, "5678");
         CustomerAccounts customerAccounts = new CustomerAccounts();
         customerAccounts.setPin(1234L);
@@ -65,7 +65,7 @@ public class TransactionServiceTest {
 
         when(customerAccountsRepository.findByAccountNumber(1234567890L)).thenReturn(Optional.of(customerAccounts));
 
-        // Act
+
         ResponseEntity<String> response = transactonService.withdrawFromAccount(withdrawal);
 
         // Assert

@@ -27,4 +27,7 @@ public class ChangePin {
     @NotEmpty(message = "pin number cannot be empty")
     @Length(min = 4, max = 4)
     private String customerNewPin;
+
+
+
 }

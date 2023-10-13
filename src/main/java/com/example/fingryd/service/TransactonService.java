@@ -1,6 +1,7 @@
 package com.example.fingryd.service;
 
 import com.example.fingryd.exception.CustomerException;
+import com.example.fingryd.model.Customer;
 import com.example.fingryd.model.CustomerAccounts;
 import com.example.fingryd.modelValidator.Credit;
 import com.example.fingryd.modelValidator.Purchase;
@@ -8,8 +9,10 @@ import com.example.fingryd.modelValidator.Transfer;
 import com.example.fingryd.modelValidator.Withdrawal;
 import com.example.fingryd.repository.CustomerAccountsRepository;
 import com.example.fingryd.modelValidator.Charges;
+import com.example.fingryd.utils.findrydMail.FingrydMail;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +23,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Component
 public class TransactonService {
 
     @Autowired
     private CustomerAccountsRepository customerAccountsRepository;
+
+    @Autowired
+    private FingrydMail fingrydMail;
 
     @Transactional
     public ResponseEntity<String> withdrawFromAccount(Withdrawal withdrawal){
@@ -52,6 +57,9 @@ public class TransactonService {
 
         customerAccounts.setBalance(customerAccounts.getBalance() + credit.getAmount());
         customerAccountsRepository.save(customerAccounts);
+        Customer c = customerAccounts.getCustomerId();
+        FingrydMail.successfulTransferEmail(c.getEmail(), c.getName(),String.valueOf(credit.getAmount()),
+                "Credit", String.valueOf(customerAccounts.getBalance()), null);
 
         Map<String, String> message = new HashMap<>();
         message.put("message", "Success");

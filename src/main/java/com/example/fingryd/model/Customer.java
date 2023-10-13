@@ -9,14 +9,16 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"customerId", "mobile", "email"}))
-public final class Customer {
+public final class Customer implements GetDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long customerId;
@@ -61,5 +63,16 @@ public final class Customer {
         this.userName = userName;
         this.password = password;
         this.address = address;
+    }
+
+    @Override
+    public Map<String, String> getDetail() {
+
+        Map<String, String> details = new HashMap<>();
+        details.put("Name", this.name);
+        details.put("Email", this.email);
+        details.put("Phone number", this.mobile);
+
+        return details;
     }
 }

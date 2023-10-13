@@ -23,12 +23,12 @@ public class GlobalException {
     public ResponseEntity<String> nullPointerValue(NullPointerException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The value you enter was incorrect. Check data...");
     }
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> globalException(Exception e){
-        Map<String, String> error = new HashMap<>();
-        error.put("error", e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<Map<String, String>> globalException(Exception e){
+//        Map<String, String> error = new HashMap<>();
+//        error.put("error", e.getMessage());
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+//    }
 
     @ExceptionHandler(HttpServerErrorException.InternalServerError.class)
     public ResponseEntity<String> internalServerError(Exception e){

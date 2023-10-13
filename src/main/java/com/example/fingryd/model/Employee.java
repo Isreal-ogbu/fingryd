@@ -9,12 +9,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"id", "username", "email"}))
-public class Employee {
+public class Employee implements GetDetails {
 //    Still a work in progress. we will be needing them during auth configuration for admin/employee management
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +34,7 @@ public class Employee {
     @NotNull(message = "phone number cannot be null")
     @NotBlank(message = "phone number cannot be blank")
     @NotEmpty(message = "phone number cannot be empty")
-    @Pattern(regexp = "^\\+234\\d{11}$")
+    @Pattern(regexp = "^\\+234\\d{10}$")
     private String mobile;
 
     @NotNull(message = "email cannot be null")
@@ -49,15 +52,25 @@ public class Employee {
     @NotBlank(message = "password cannot be blank")
     @NotEmpty(message = "password cannot be empty")
     @Length(min = 8, max = 50, message = "min length of password is 8")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[@$#^+=!%&*()_])[A-Za-z0-9@$#^+=!%&*()_]{8,}$\n",
-            message = "must contain a lower and uppercase character, a number and a character")
     private String password;
 
     @NotNull(message = "address cannot be null")
     @NotBlank(message = "address cannot be blank")
-    @NotEmpty(message = "adress cannot be empty")
+    @NotEmpty(message = "address cannot be empty")
     private String address;
 
     @Enumerated(value = EnumType.STRING)
     private Roles role;
+
+    @Override
+    public Map<String, String> getDetail() {
+
+        Map<String, String> details = new HashMap<>();
+        details.put("Name", this.name);
+        details.put("Email", this.email);
+        details.put("Phone number", this.mobile);
+        details.put("EmployeeId", this.employeeId);
+
+        return details;
+    }
 }
