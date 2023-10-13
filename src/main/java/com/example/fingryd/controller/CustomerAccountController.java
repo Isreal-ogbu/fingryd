@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("account/v1/")
 public class CustomerAccountController {
-    private CustomerAccountService customerAccountService;
+    private final CustomerAccountService customerAccountService;
     @Autowired
     private CustomerAccountController(CustomerAccountService customerAccountService){
         this.customerAccountService = customerAccountService;

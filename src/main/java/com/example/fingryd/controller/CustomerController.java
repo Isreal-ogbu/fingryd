@@ -5,6 +5,7 @@ import com.example.fingryd.modelValidator.ChangePin;
 import com.example.fingryd.modelValidator.Registration;
 import com.example.fingryd.service.CustomerService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("info/v1/")
 public class CustomerController {
-    private CustomerService customerService;
+
+    private final CustomerService customerService;
+    @Autowired
     public CustomerController(CustomerService customerService){
         this.customerService = customerService;
     }

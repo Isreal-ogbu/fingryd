@@ -1,5 +1,6 @@
 package com.example.fingryd.utils;
 
+import com.example.fingryd.utils.findrydMail.FingrydMail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,19 +12,24 @@ import java.util.Properties;
 public class MyBeanClass {
 
     @Value(value = "${email}")
-    private static String email;
+    private String email;
 
     @Value(value = "${password}")
-    private static String setPassword;
+    private String setPassword;
 
     @Value(value = "${host}")
-    private static String host;
+    private String host;
 
     @Value(value = "${protocol}")
-    private static String protocol;
+    private String protocol;
 
     @Value(value = "${port}")
-    private static int port;
+    private int port;
+
+    @Bean
+    public ReportService getReportService(){
+        return new ReportService();
+    }
 
     @Bean
     public JavaMailSender getSenderMail(){
@@ -41,19 +47,19 @@ public class MyBeanClass {
 
         return javaMailSender;
     }
-    public static String getEmail() {
+    public String getEmail() {
         return email;
     }
-    public static String getSetPassword() {
+    public String getSetPassword() {
         return setPassword;
     }
-    public static String getHost() {
+    public String getHost() {
         return host;
     }
-    public static String getProtocol() {
+    public String getProtocol() {
         return protocol;
     }
-    public static int getPort() {
+    public int getPort() {
         return port;
     }
 }

@@ -7,7 +7,7 @@ import com.example.fingryd.modelValidator.ChangePin;
 import com.example.fingryd.modelValidator.Registration;
 import com.example.fingryd.repository.CustomerAccountsRepository;
 import com.example.fingryd.repository.CustomerRepository;
-import com.example.fingryd.utils.CustomerServiceUtils;
+import com.example.fingryd.utils.ReportService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,13 +18,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Configuration
 public class CustomerService {
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
     @Autowired
     private CustomerAccountsRepository customerAccountsRepository;
+    @Autowired
+    private ReportService reportService;
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository){
@@ -34,11 +37,17 @@ public class CustomerService {
     @Transactional
     public ResponseEntity<Map<String, String>> createCustomerAccount(Registration e) {
         Map<String, String> response = new HashMap<>();
+        Optional<Customer> c = customerRepository.findByMobile(e.getMobile());
+        if (c.isPresent()){
+            response.put("message", "Customer with phone number already Exist.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
         Customer customer = new Customer(e.getName(), e.getMobile(), e.getEmail(), e.getUserName(), e.getPassword(), e.getAddress());
         Customer customer1 = customerRepository.save(customer);
         double initialBalance = 0;
-        CustomerAccounts customerAccounts = new CustomerAccounts(customer1, e.getMobile().substring(3, 13), e.getPin(), e.getAccount_type(), initialBalance);
+        CustomerAccounts customerAccounts = new CustomerAccounts(customer1, e.getMobile().substring(4), e.getPin(), e.getAccount_type(), initialBalance);
         customerAccountsRepository.save(customerAccounts);
+        reportService.accountCreationReport(e.getName());
         response.put("message", "Welcome to Fingryd bank, Your account" +
                 "Was successfully created. Kindly check your email for account information");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -57,8 +66,6 @@ public class CustomerService {
         customerRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Account with "+ id + " has been deleted successfully");
     }
-
-
     @Transactional
     public ResponseEntity<Map<String, String>> changePin(ChangePin changePin ) {
         Map<String, String > response = new HashMap<>();

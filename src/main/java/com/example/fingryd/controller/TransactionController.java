@@ -18,7 +18,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("transaction/v1/")
 public class TransactionController {
-    private TransactonService transactonService;
+
+    private final TransactonService transactonService;
     @Autowired
     public TransactionController(TransactonService transactonService){
         this.transactonService = transactonService;

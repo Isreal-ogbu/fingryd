@@ -18,8 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -52,7 +51,7 @@ public class TransactionServiceTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Dear customer, a withdrawal of 50.0 was successfully deducted from your account", response.getBody());
-       // assertEquals(50.0, customerAccounts.getBalance());
+        assertEquals(29.950000000000003, customerAccounts.getBalance());
         verify(customerAccountsRepository, times(1)).save(customerAccounts);
     }
 
