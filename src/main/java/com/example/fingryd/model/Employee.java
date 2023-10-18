@@ -1,24 +1,29 @@
 package com.example.fingryd.model;
 
 
+import com.example.fingryd.model.model_enum.AccountType;
 import com.example.fingryd.model.model_enum.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Entity
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"id", "username", "email"}))
-public class Employee implements GetDetails {
-//    Still a work in progress. we will be needing them during auth configuration for admin/employee management
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"id", "employeeId", "email"}))
+public class Employee implements GetDetails, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -29,7 +34,7 @@ public class Employee implements GetDetails {
     private String name;
 
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String employeeId;
+    private UUID employeeId;
 
     @NotNull(message = "phone number cannot be null")
     @NotBlank(message = "phone number cannot be blank")
@@ -62,15 +67,58 @@ public class Employee implements GetDetails {
     @Enumerated(value = EnumType.STRING)
     private Roles role;
 
+    public Employee(String name, String userName, String email, String mobile, String password, String address, Roles role){
+        this.name = name;
+        this.userName = userName;
+        this.email = email;
+        this.mobile = mobile;
+        this.password = password;
+        this.address = address;
+        this.role = role;
+        this.employeeId = UUID.randomUUID();
+        this.role = Objects.requireNonNullElse(role, Roles.ADMIN);
+    }
+
     @Override
     public Map<String, String> getDetail() {
 
         Map<String, String> details = new HashMap<>();
         details.put("Name", this.name);
         details.put("Email", this.email);
+        details.put("UserName", this.userName);
         details.put("Phone number", this.mobile);
-        details.put("EmployeeId", this.employeeId);
+        details.put("EmployeeId", String.valueOf(this.employeeId));
 
         return details;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(this.role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }

@@ -1,18 +1,16 @@
 package com.example.fingryd.utils.findrydMail;
 
-import com.example.fingryd.utils.EmailService;
+import com.example.fingryd.utils.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class FingrydMail {
 
-    private static EmailService emailService;
+    private static EmailUtil emailService;
     @Autowired
-    public FingrydMail(EmailService emailService){
+    public FingrydMail(EmailUtil emailService){
         this.emailService = emailService;
     }
 
