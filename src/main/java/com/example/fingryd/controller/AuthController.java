@@ -1,8 +1,10 @@
 package com.example.fingryd.controller;
 
+import com.example.fingryd.modelValidator.Registration;
 import com.example.fingryd.requests.AuthenticationRequest;
 import com.example.fingryd.requests.RegistrationRequest;
 import com.example.fingryd.response.AuthenticationResponse;
+import com.example.fingryd.service.CustomerService;
 import com.example.fingryd.service.EmployeeService;
 import com.example.fingryd.service.security.AuthenticationService;
 import jakarta.validation.Valid;
@@ -19,6 +21,8 @@ public class AuthController {
 
     @Autowired
     private AuthenticationService authenticationService;
+    @Autowired
+    private CustomerService customerService;
 
     private EmployeeService employeeService;
     @Autowired
@@ -34,5 +38,10 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> addEmployee(@RequestBody @Valid RegistrationRequest registrationRequest){
 
         return employeeService.addEmployee(registrationRequest);
+    }
+    @PostMapping("create-account/")
+    public ResponseEntity<Map<String, String>> creatCustomerAccount(@RequestBody @Valid Registration registration){
+
+        return customerService.createCustomerAccount(registration);
     }
 }

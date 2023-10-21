@@ -74,7 +74,6 @@ public class Employee implements GetDetails, UserDetails {
         this.mobile = mobile;
         this.password = password;
         this.address = address;
-        this.role = role;
         this.employeeId = UUID.randomUUID();
         this.role = Objects.requireNonNullElse(role, Roles.ADMIN);
     }

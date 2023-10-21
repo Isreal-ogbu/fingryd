@@ -1,5 +1,6 @@
 package com.example.fingryd.model;
 
+import com.example.fingryd.model.model_enum.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -7,10 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -56,6 +59,9 @@ public final class Customer implements GetDetails, UserDetails {
     @NotEmpty(message = "address cannot be empty")
     private String address;
 
+    @Enumerated(value = EnumType.STRING)
+    private Roles role = Roles.USER;
+
     public Customer(String name, String mobile, String email, String userName, String password, String address) {
         this.name=name;
         this.mobile=mobile;
@@ -78,7 +84,7 @@ public final class Customer implements GetDetails, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
 
     @Override

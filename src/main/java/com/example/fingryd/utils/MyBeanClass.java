@@ -1,5 +1,6 @@
 package com.example.fingryd.utils;
 
+import com.example.fingryd.utils.findrydMail.FingrydMail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -29,6 +30,7 @@ public class MyBeanClass {
     public ReportUtil getReportService(){
         return new ReportUtil();
     }
+
 
     @Bean
     public JavaMailSender getSenderMail(){
