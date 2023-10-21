@@ -8,15 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("account/v1/")
+@RequestMapping("api/v1/a/")
 public class CustomerAccountController {
     private final CustomerAccountService customerAccountService;
     @Autowired
     private CustomerAccountController(CustomerAccountService customerAccountService){
+
         this.customerAccountService = customerAccountService;
     }
-    @PostMapping("/")
+    @PostMapping("customer-account/")
     public ResponseEntity<CustomerAccounts> getCustomerAccount(@RequestBody @Valid AccountNumberValidator e){
+
         return customerAccountService.getCustomerAccountByAccountNumber(e);
     }
 }

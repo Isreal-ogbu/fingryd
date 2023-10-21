@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("info/v1/")
+@RequestMapping("api/v1/c/")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -22,19 +22,23 @@ public class CustomerController {
     }
     @PostMapping("create-account/")
     public ResponseEntity<Map<String, String>> creatCustomerAccount(@RequestBody @Valid Registration registration){
+
         return customerService.createCustomerAccount(registration);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/")
     public ResponseEntity<Customer> getCustomerInformation(@PathVariable Long id){
+
         return customerService.getAccount(id);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/")
     public ResponseEntity<String> deleteCustomerInformation(@PathVariable Long id){
+
         return customerService.deleteAccount(id);
     }
 
-    @PostMapping("/change-pin")
+    @PostMapping("/change-pin/")
     public ResponseEntity<Map<String, String>> changePin( @RequestBody @Valid ChangePin changePin) {
+
         return customerService.changePin(changePin);
     }
 

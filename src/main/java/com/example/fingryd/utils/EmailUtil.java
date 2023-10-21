@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 @Component
 @Service
 @Configuration
-public class EmailService {
+public class EmailUtil {
     public JavaMailSender mailSender;
     @Autowired
-    public EmailService(JavaMailSender mailSender){
+    public EmailUtil(JavaMailSender mailSender){
         this.mailSender = mailSender;
     }
     public void sendSimpleEmail(String email, String subject, String body) throws MailException {

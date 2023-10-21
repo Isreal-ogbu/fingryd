@@ -7,10 +7,9 @@ import com.example.fingryd.modelValidator.ChangePin;
 import com.example.fingryd.modelValidator.Registration;
 import com.example.fingryd.repository.CustomerAccountsRepository;
 import com.example.fingryd.repository.CustomerRepository;
-import com.example.fingryd.utils.ReportService;
+import com.example.fingryd.utils.ReportUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class CustomerService {
     @Autowired
     private CustomerAccountsRepository customerAccountsRepository;
     @Autowired
-    private ReportService reportService;
+    private ReportUtil reportUtil;
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository){
@@ -47,7 +46,7 @@ public class CustomerService {
         double initialBalance = 0;
         CustomerAccounts customerAccounts = new CustomerAccounts(customer1, e.getMobile().substring(4), e.getPin(), e.getAccount_type(), initialBalance);
         customerAccountsRepository.save(customerAccounts);
-        reportService.accountCreationReport(e.getName());
+        reportUtil.accountCreationReport(e.getName());
         response.put("message", "Welcome to Fingryd bank, Your account" +
                 "Was successfully created. Kindly check your email for account information");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

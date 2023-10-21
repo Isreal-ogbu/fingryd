@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("transaction/v1/")
+@RequestMapping("api/v1/t/")
 public class TransactionController {
 
     private final TransactonService transactonService;
@@ -27,21 +27,25 @@ public class TransactionController {
 
     @PostMapping("withdraw/")
     public ResponseEntity<String> withdrawalFromAccount(@RequestBody @Valid Withdrawal withdrawal){
+
         return transactonService.withdrawFromAccount(withdrawal);
     }
 
     @PostMapping("credit/")
     public ResponseEntity<Map<String, String>> creditAccount(@RequestBody @Valid Credit credit){
+
         return transactonService.creditAccount(credit);
     }
 
     @PostMapping("transfer/")
     public ResponseEntity<Map<String, String>> transfer(@RequestBody @Valid Transfer transfer){
+
         return transactonService.transferFromAccount(transfer);
     }
 
     @PostMapping("buy/")
     public ResponseEntity<Map<String, String>> purchaseItem(@RequestBody @Valid Purchase purchase){
+
         return transactonService.purchaseItem(purchase);
     }
 

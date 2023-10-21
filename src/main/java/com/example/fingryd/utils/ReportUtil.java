@@ -1,10 +1,6 @@
 package com.example.fingryd.utils;
 
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
@@ -13,7 +9,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Component
-public class ReportService {
+public class ReportUtil {
 
     @Value(value = "${filename}")
     private String logLocation;
