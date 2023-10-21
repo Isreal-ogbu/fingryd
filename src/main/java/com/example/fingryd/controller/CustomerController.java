@@ -4,6 +4,7 @@ import com.example.fingryd.model.Customer;
 import com.example.fingryd.modelValidator.ChangePin;
 import com.example.fingryd.modelValidator.Registration;
 import com.example.fingryd.service.CustomerService;
+import com.example.fingryd.utils.findrydMail.FingrydMail;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +20,6 @@ public class CustomerController {
     @Autowired
     public CustomerController(CustomerService customerService){
         this.customerService = customerService;
-    }
-    @PostMapping("create-account/")
-    public ResponseEntity<Map<String, String>> creatCustomerAccount(@RequestBody @Valid Registration registration){
-
-        return customerService.createCustomerAccount(registration);
     }
     @GetMapping("/{id}/")
     public ResponseEntity<Customer> getCustomerInformation(@PathVariable Long id){
