@@ -11,3 +11,20 @@
 ![Licence](https://img.shields.io/github/license/Isreal-ogbu/fingryd)
 ![Issues](https://img.shields.io/github/issues/Isreal-ogbu/fingryd)
 ---
+<h2 align="center">Table of Contents</h2>
+
+- [auth](#auth)
+- [config](#config)
+- [controller](#controller)
+- [exception](#exception)
+- [logging](#logging)
+- [model](#model)
+- [model-validator](#model-validator)
+- [repository](repository)
+- [requests](#requests)
+- [response](#responses)
+- [security](#security)
+- [services](#services)
+- [utils](#utils)
+
+---
