@@ -4,7 +4,6 @@
   Bank Management Application
 </p>
 
-
 ![Contributors](https://img.shields.io/github/contributors/Isreal-ogbu/fingryd?style=plastic)
 ![Forks](https://img.shields.io/github/forks/Isreal-ogbu/fingryd)
 ![Stars](https://img.shields.io/github/stars/Isreal-ogbu/fingryd)
