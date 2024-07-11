@@ -1,4 +1,4 @@
-package com.example.fingryd.model;
+package com.example.fingryd.model.common;
 
 import java.util.Map;
 

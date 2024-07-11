@@ -37,3 +37,4 @@ build/
 *.yml
 *.application.yml
 *.txt
+/src/main/java/com/example/fingryd/logging/

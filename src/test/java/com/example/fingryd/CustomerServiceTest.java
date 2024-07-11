@@ -7,7 +7,7 @@ import com.example.fingryd.modelValidator.Registration;
 import com.example.fingryd.model.model_enum.AccountType;
 import com.example.fingryd.repository.CustomerAccountsRepository;
 import com.example.fingryd.repository.CustomerRepository;
-import com.example.fingryd.service.CustomerService;
+import com.example.fingryd.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,9 +36,18 @@ public class CustomerServiceTest {
 
     @Test
     public void testCreateCustomerAccount() {
-        Registration registration = new Registration("John Doe", "+2348160006667", "john@example.com", "johndoe", "password", "123 Main St", "1234", AccountType.SAVINGS);
+        Registration registration = new Registration("John Doe", "+2348160006667", "john@example.com",
+                "john doe", "password", "123 Main St", "1234", AccountType.SAVINGS);
 
-        Customer customer = new Customer("John Doe", "+2348160006667", "john@example.com", "johndoe", "password", "123 Main St");
+        Customer customer = new Customer();
+
+        customer.setName("John Doe");
+        customer.setMobile("+2348160006667");
+        customer.setEmail("john@example.com");
+        customer.setUserName("john doe");
+        customer.setPassword("password");
+        customer.setAddress("123 Main St");
+
         CustomerAccounts customerAccounts = new CustomerAccounts(customer, "4567890", "1234", AccountType.SAVINGS);
 
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
@@ -61,15 +70,21 @@ public class CustomerServiceTest {
     @Test
     public void testGetAccount() {
         Long customerId = 1L;
-        Customer customer = new Customer("John Doe", "1234567890", "john@example.com", "johndoe", "password", "123 Main St");
+        Customer customer = new Customer();
 
+        customer.setName("John Doe");
+        customer.setMobile("+2348160006667");
+        customer.setEmail("john@example.com");
+        customer.setUserName("john doe");
+        customer.setPassword("password");
+        customer.setAddress("123 Main St");
         when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 
         ResponseEntity<Customer> response = customerService.getAccount(customerId);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("*******", response.getBody().getPassword());
+        assertEquals("*******", Objects.requireNonNull(response.getBody()).getPassword());
     }
 
 

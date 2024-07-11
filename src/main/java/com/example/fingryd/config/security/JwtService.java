@@ -1,4 +1,4 @@
-package com.example.fingryd.service.security;
+package com.example.fingryd.config.security;
 
 import com.example.fingryd.repository.EmployeeRepository;
 import io.jsonwebtoken.Claims;
@@ -78,7 +78,6 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
     public String refreshToken(UserDetails userDetails) {
         try {
             return generateToken(userDetails);

@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "Customer_Transaction")
 public class TransactionLog {
     @Id
