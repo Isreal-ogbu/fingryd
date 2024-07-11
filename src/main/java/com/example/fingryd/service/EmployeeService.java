@@ -2,9 +2,11 @@ package com.example.fingryd.service;
 
 import com.example.fingryd.exception.CustomerException;
 import com.example.fingryd.model.Employee;
+import com.example.fingryd.model.model_enum.Roles;
 import com.example.fingryd.modelValidator.UpdateDetail;
 import com.example.fingryd.repository.EmployeeRepository;
 import com.example.fingryd.requests.RegistrationRequest;
+import com.example.fingryd.service.managers.EmployeeManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class EmployeeService {
+public class EmployeeService implements EmployeeManager {
     private final EmployeeRepository employeeRepository;
     @Autowired
     public EmployeeService(EmployeeRepository e){
@@ -37,7 +39,16 @@ public class EmployeeService {
     }
     public ResponseEntity<Map<String, String>> addEmployee(RegistrationRequest e){
 
-        Employee employee = new Employee(e.getName(), e.getUserName(), e.getEmail(), e.getMobile(), e.getPassword(), e.getAddress(), e.getRole());
+        Employee employee = new Employee();
+        employee.setName(e.getName());
+        employee.setMobile(e.getMobile());
+        employee.setPassword(e.getPassword());
+        employee.setEmail(e.getEmail());
+        employee.setUserName(e.getUserName());
+        employee.setAddress(e.getAddress());
+        employee.setRole(e.getRole());
+        employee.setEmployeeId(UUID.randomUUID());
+        employee.setRole(Roles.USER);
         employeeRepository.save(employee);
         Map<String, String> response = new HashMap<>();
         response.put("message", "Employee record created");

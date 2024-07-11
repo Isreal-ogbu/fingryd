@@ -1,5 +1,6 @@
 package com.example.fingryd.service;
 
+import com.example.fingryd.service.managers.CustomerAccountManager;
 import com.example.fingryd.exception.CustomerException;
 import com.example.fingryd.model.CustomerAccounts;
 import com.example.fingryd.modelValidator.AccountNumberValidator;
@@ -10,13 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomerAccountService {
-    private CustomerAccountsRepository customerAccountsRepository;
+public class CustomerAccountService implements CustomerAccountManager {
+    private final CustomerAccountsRepository customerAccountsRepository;
     @Autowired
     public CustomerAccountService(CustomerAccountsRepository customerAccountsRepository){
         this.customerAccountsRepository = customerAccountsRepository;
     }
-
+    @Override
     public ResponseEntity<CustomerAccounts> getCustomerAccountByAccountNumber(AccountNumberValidator accountNumberValidator){
         CustomerAccounts customerAccounts = customerAccountsRepository.findByAccountNumber(Long.parseLong(
                 accountNumberValidator.getCustomerAccountNumber())).orElseThrow(()-> new CustomerException("Account does not exist. Check account number"));

@@ -6,23 +6,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
-@Service
 @Component
 public class FingrydMail {
 
-    private static EmailUtil emailService;
-    @Autowired
+//    @Autowired
+    private final EmailUtil emailService;
+
     public FingrydMail(EmailUtil emailService){
         this.emailService = emailService;
     }
 
-    public static void welcomeEmail(String email, String name){
+    public void welcomeEmail(String email, String name){
         String subject = "FINGRYD WELCOME MESSAGE (NEW CUSTOMER)";
         String body = String.format("Dear %s, Welcome to Fingryd Bank. \n\nWe are glad to have you choose us. \n\n" +
                 "We hope you enjoy our future services. \n\nKindly call 0810fingryd for Enquires. Again, You are highly Welcome", name);
         emailService.sendSimpleEmail(email,subject,body);
     }
-    public static void successfulTransferEmail(String email, String name, String amount, String desc, String balance, String to){
+    public void successfulTransferEmail(String email, String name, String amount, String desc, String balance, String to){
         String subject = "Transaction Successful";
         String body;
         if (to != null) {
@@ -36,7 +36,7 @@ public class FingrydMail {
         }
         emailService.sendSimpleEmail(email, subject, body);
     }
-    public static void purchaseEmail(String email, String name, String amount, String desc){
+    public void purchaseEmail(String email, String name, String amount, String desc){
         String subject = "Transaction Successful (Item Purchased)";
         String body = String.format("Dear %s, your transaction was successful.\n\n" +
                 "Amount: %s \n\nDESC: %s\n\n" +
@@ -44,7 +44,7 @@ public class FingrydMail {
         emailService.sendSimpleEmail(email, subject, body);
         return;
     }
-    public static void unSuccessfulTransferEmail(String email, String name, String amount){
+    public void unSuccessfulTransferEmail(String email, String name, String amount){
         String subject = "Transaction Unsuccessful";
         String body = String.format("Dear %s, your transaction was unsuccessful.\n\n" +
                 "You tried to make a transaction of : %s  which failed.\n\n" +
@@ -53,7 +53,7 @@ public class FingrydMail {
         emailService.sendSimpleEmail(email, subject, body);
         return;
     }
-    public static void creditAlertEmail(String email, String amount, String name, String desc){
+    public void creditAlertEmail(String email, String amount, String name, String desc){
         String subject = "Transaction Successful (Credit Alert)";
         String body = String.format("Dear %s, your transaction was successful.\n\n" +
                 "Amount: %s \n\nDESC: %s\n\n" +
@@ -61,21 +61,18 @@ public class FingrydMail {
         emailService.sendSimpleEmail(email, subject, body);
         return;
     }
-    public static void debitAlertEmail(String email, String name, String amount, String desc){
+    public void debitAlertEmail(String email, String name, String amount, String desc){
         String subject = "Transaction Successful (Debit Alert)";
         String body = String.format("Dear %s, your transaction was successful.\n\n" +
                 "Amount: %s \n\nDESC: %s\n\n" +
                 "Thanks for using our service with us. \n\nKindly call 0810fingryd for Enquires. Again Welcome",name, amount, desc);
         emailService.sendSimpleEmail(email, subject, body);
     }
-    public static void balanceEmail(String email, String name, String amount, String desc){
+    public void balanceEmail(String email, String name, String amount, String desc){
         String subject = "Balance Enquiry ";
         String body = String.format("Dear %s, \n\n" +
                 "Your available balance is now : %s\n\n" +
                 "Thanks for using our service with us. \n\nKindly call 0810fingryd for Enquires. Again Welcome",name, amount, desc);
         emailService.sendSimpleEmail(email, subject, body);
-    }
-    public static void randomFingrydEmail(String email){
-
     }
 }

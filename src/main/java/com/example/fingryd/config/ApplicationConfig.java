@@ -1,7 +1,8 @@
 package com.example.fingryd.config;
 
-import com.example.fingryd.repository.EmployeeRepository;
+import com.example.fingryd.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,10 +20,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final EmployeeRepository userRepository;
+    private final CustomerRepository userRepository;
     @Bean
     public UserDetailsService userDetailsService(){
-        return username -> userRepository.findByUserName(username).orElseThrow(()-> new UsernameNotFoundException("Employee not found"));
+        return username -> userRepository.findByUserName(username).orElseThrow(()->
+                new UsernameNotFoundException("Customer not found"));
     }
     @Bean
     public AuthenticationProvider authenticationProvider(){

@@ -12,7 +12,6 @@ import java.util.Objects;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public final class CustomerAccounts {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

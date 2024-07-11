@@ -6,17 +6,34 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+  security:
+    user:
+      name: "guest"
+      password: "guest"
 
 springdoc:
-  api-docs:
-    path: /swagger-ui/api-docs
+  swagger-ui:
+    path: /index.html
+    operationsSorter: method
+    tagsSorter: alpha
+    enabled: true
+    default-models-expand-depth: -1
+  paths-to-match: /api/**
 
+
+# server configuration
 server:
   port: 8081
+  servlet:
+    context-path: /fingryd
+  tomcat:
+    threads:
+      max: 10
+      min-spare: 5
 
 #Logging configuration
 logging:
